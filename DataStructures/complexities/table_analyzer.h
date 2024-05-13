@@ -29,6 +29,7 @@ namespace ds::utils
         size_t index_;
         int data_;
 		std::vector<int> keyList_;
+        std::vector<int> inserted_keys;
     };
     /**
 	* @brief Analyzes complexity of an insertion at the beginning.
@@ -78,7 +79,6 @@ namespace ds::utils
         this->keyList_.reserve(11000000);
 		for (int i = 1; i < 11000000; i++)
 		{
-			//std::cout << "Inserting " << i << "\n";
             this->keyList_.push_back(i);
 		}
         ComplexityAnalyzer<TabType>::registerBeforeOperation([this](TabType& list)
@@ -87,30 +87,19 @@ namespace ds::utils
         		index_ = indexDist(rngIndex_);
         		data_ = rngData_();
             });
-		//std::cout << "List size: " << this->keyList_.size() << "\n";
     }
 
     template<typename TabType>
     void TabAnalyzer<TabType>::growToSize(TabType& structure, size_t size) {
-        //for (int i = 1; i <= size; i++) {
-        //    this->keyList_.push_back(i);
-        //}
-        //std::shuffle(this->keyList_.begin(), this->keyList_.end(), std::mt19937(std::random_device()()));
         const size_t toInsert = size - structure.size();
         for (size_t i = 0; i < toInsert; ++i)
         {
-            //key = rngData_();
             int key = this->keyList_.back();
 			this->keyList_.pop_back();
             structure.insert(key, rngData_());
-            //keyList_.push_back(key);
-            //std::cout << "Key: " << key << " Value: " << value << "\n";
+            this->inserted_keys.push_back(key);
         }
-        //this->keyList_.clear();
-        //for (int i = 1; i <= size; i++) {
-         //   this->keyList_.push_back(i*structure.size());
-        //}
-		std::cout << "Grow to size List size: " << this->keyList_.size() << "\n";
+		//std::cout << "Grow to size List size: " << this->keyList_.size() << "\n";
     }
 
     template<class List>
@@ -155,19 +144,15 @@ namespace ds::utils
         }
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(0, this->keyList_.size()- 1);
+        std::uniform_int_distribution<> distrib(0, this->inserted_keys.size()- 1);
         int randomIndex = distrib(gen);
-        std::cout << "List size: " << this->keyList_.size() << "\nRand inde: " << randomIndex << std::endl;
-        int valueFromList = this->keyList_[randomIndex];
-//        if (structure.contains(valueFromList)) {
-//            structure.remove(valueFromList);
-//        } else {
-//            std::cout << "Neni v tabulce\n";
-//        }
-        structure.remove(valueFromList);
-        //this->keyList_.remove(randomIndex);
-		this->keyList_.erase(this->keyList_.begin() + randomIndex);
-        std::cout << "List size: " << this->keyList_.size() << "\n";
+        int valueFromList = this->inserted_keys.back();
+        this->inserted_keys.pop_back();
+        //std::cout << "-----------------------------\n";
+        //std::cout << "Total List size: " << this->keyList_.size() << "\nInser List size: " << this->inserted_keys.size() << "\nRand inde: " << randomIndex << "\nValue from list: " << valueFromList << std::endl;
+        //std::cout << "-----------------------------\n";
+    	structure.remove(valueFromList);
+		//this->inserted_keys.erase(this->inserted_keys.begin() + randomIndex);
     }
 
     //----------
