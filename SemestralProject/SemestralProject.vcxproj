@@ -141,13 +141,9 @@
     <ClInclude Include="Filter.h" />
     <ClInclude Include="HierarchyManager.h" />
     <ClInclude Include="Loader.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="RoutingTable.h" />
     <ClInclude Include="TableManager.h" />
     <ClInclude Include="UserInteraction.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SemestralProject.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
