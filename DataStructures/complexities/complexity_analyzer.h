@@ -121,12 +121,12 @@ namespace ds::utils
      */
     template<class Structure>
     class ComplexityAnalyzer :
-        public LeafAnalyzer,
-        public std::conditional_t<
-            std::is_default_constructible_v<Structure>,
-            PrototypeFactory<Structure>,
-            IPrototypeFactory<Structure>
-        >
+            public LeafAnalyzer,
+            public std::conditional_t<
+                    std::is_default_constructible_v<Structure>,
+                    PrototypeFactory<Structure>,
+                    IPrototypeFactory<Structure>
+            >
     {
     public:
         /**
@@ -166,27 +166,34 @@ namespace ds::utils
          */
         void registerAfterOperation(std::function<void(Structure&)> op);
 
+        void registerBeforeReplication(std::function<void(Structure&, size_t)> op);
+        void registerAfterReplication(std::function<void(Structure&)> op);
+
     private:
         using duration_t = std::chrono::nanoseconds;
 
     private:
         void saveToCsvFile(
-            const std::vector<size_t>& sizes,
-            const std::vector<std::vector<duration_t>>& results
+                const std::vector<size_t>& sizes,
+                const std::vector<std::vector<duration_t>>& results
         ) const;
 
     private:
         std::function<void(Structure&)> beforeOperation_;
         std::function<void(Structure&)> afterOperation_;
+        std::function<void(Structure&, size_t)> beforeReplication_;
+        std::function<void(Structure&)> afterReplication_;
     };
 
     template <class Structure>
     ComplexityAnalyzer<Structure>::ComplexityAnalyzer(
-        const std::string& name
+            const std::string& name
     ) :
-        LeafAnalyzer(name),
-        beforeOperation_([](Structure&) {}),
-        afterOperation_([](Structure&) {})
+            LeafAnalyzer(name),
+            beforeOperation_([](Structure&) {}),
+            afterOperation_([](Structure&) {}),
+            beforeReplication_([](Structure&, size_t) {}),
+            afterReplication_([](Structure&) {})
     {
     }
 
@@ -216,6 +223,7 @@ namespace ds::utils
             std::vector<duration_t> durations;
             durations.reserve(this->getStepCount());
             Structure structure(structurePrototype);
+            beforeReplication_(structure, this->getStepSize() * this->getStepCount());
             for (size_t step = 0; step < this->getStepCount(); ++step)
             {
                 const size_t expectedSize = sizes[step];
@@ -228,6 +236,7 @@ namespace ds::utils
                 auto duration = std::chrono::duration_cast<duration_t>(end - start);
                 durations.push_back(duration);
             }
+            afterReplication_(structure);
             results.push_back(std::move(durations));
         }
 
@@ -247,9 +256,21 @@ namespace ds::utils
     }
 
     template <class Structure>
+    void ComplexityAnalyzer<Structure>::registerAfterReplication(std::function<void(Structure&)> op)
+    {
+        afterReplication_ = std::move(op);
+    }
+
+    template <class Structure>
+    void ComplexityAnalyzer<Structure>::registerBeforeReplication(std::function<void(Structure&, size_t)> op)
+    {
+        beforeReplication_ = std::move(op);
+    }
+
+    template <class Structure>
     void ComplexityAnalyzer<Structure>::saveToCsvFile(
-        const std::vector<size_t>& sizes,
-        const std::vector<std::vector<duration_t>>& results
+            const std::vector<size_t>& sizes,
+            const std::vector<std::vector<duration_t>>& results
     ) const
     {
         constexpr char Separator = ';';

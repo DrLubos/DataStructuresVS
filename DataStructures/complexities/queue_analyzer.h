@@ -73,6 +73,7 @@ namespace ds::utils {
             std::uniform_int_distribution<size_t> indexDist(0, queue.size() - 1);
             index_ = indexDist(rngIndex_);
             data_ = getRandomData();
+            // nejaka funkcia na velkost napr queue.adjust
         });
     }
 
@@ -121,9 +122,16 @@ namespace ds::utils {
 
     //-------------
 
+class TwoListAnalyzer : public QueueAnalyzer<ds::adt::TwoLists<int, int>> {
+            TwoListAnalyzer(std::string& name);
+    ds::adt::TwoLists<int,int> createPrototype() override {
+        return ds::adt::TwoLists<int, int>(10000);
+    }
+        };
+
     inline QueuesAnalyzer::QueuesAnalyzer() :
             CompositeAnalyzer("Queues")
     {
-        //this->addAnalyzer(std::make_unique<QueueInsertAnalyzer<ds::adt::TwoLists<int, int>>>("queue-insert"));
+        //this->addAnalyzer(std::make_unique<TwoListAnalyzer>());
     }
 }
