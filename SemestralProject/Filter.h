@@ -6,7 +6,7 @@ auto matchLifetime = [](const RoutingTableRow& row, unsigned int startTime, unsi
         return true;
     }
     return false;
-    };
+};
 
 auto matchWithAddress = [](const RoutingTableRow& row, const std::bitset<32>& addressToCompare) {
     std::bitset<32> ipAddress = row.ipAddress;
@@ -16,7 +16,7 @@ auto matchWithAddress = [](const RoutingTableRow& row, const std::bitset<32>& ad
         }
     }
     return true;
-    };
+};
 
 class Filter {
 public:
@@ -28,10 +28,11 @@ public:
 
 template<typename Pred, typename Seq, typename Iterator>
 void Filter::filterEntries(Iterator begin, Iterator end, Pred predicate, Seq& sequence) {
-    for (auto it = begin; it != end; ++it) {
-        if (predicate(*it)) {
-            sequence.insertLast().data_ = &(*it);
+    while(begin != end) {
+        if(predicate(*begin)) {
+            sequence.insertLast().data_ = &(*begin);
         }
+        begin.operator++();
     }
 }
 

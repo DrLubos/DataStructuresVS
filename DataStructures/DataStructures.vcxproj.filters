@@ -192,13 +192,10 @@
     <ClInclude Include="tests\adt\tree.test.h">
       <Filter>tests\adt</Filter>
     </ClInclude>
-    <ClInclude Include="complexities\table_analyzer_old.h">
-      <Filter>complexities</Filter>
-    </ClInclude>
-    <ClInclude Include="complexities\table_analyzer_newer.h">
-      <Filter>complexities</Filter>
-    </ClInclude>
     <ClInclude Include="complexities\table_analyzer.h">
+      <Filter>complexities</Filter>
+    </ClInclude>
+    <ClInclude Include="complexities\queue_analyzer.h">
       <Filter>complexities</Filter>
     </ClInclude>
   </ItemGroup>

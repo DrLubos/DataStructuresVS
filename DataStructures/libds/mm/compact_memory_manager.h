@@ -54,21 +54,21 @@ namespace ds::mm {
 
     template<typename BlockType>
     CompactMemoryManager<BlockType>::CompactMemoryManager() :
-        CompactMemoryManager(INIT_SIZE)
+            CompactMemoryManager(INIT_SIZE)
     {
     }
 
     template<typename BlockType>
     CompactMemoryManager<BlockType>::CompactMemoryManager(size_t size) :
-        base_(static_cast<BlockType*>(std::calloc(size, sizeof(BlockType)))),
-        end_(base_),
-        limit_(base_ + size)
+            base_(static_cast<BlockType*>(std::calloc(size, sizeof(BlockType)))),
+            end_(base_),
+            limit_(base_ + size)
     {
     }
 
     template<typename BlockType>
     CompactMemoryManager<BlockType>::CompactMemoryManager(const CompactMemoryManager<BlockType>& other) :
-        CompactMemoryManager(other.getAllocatedBlockCount())
+            CompactMemoryManager(other.getAllocatedBlockCount())
     {
         this->assign(other);
     }
@@ -102,9 +102,9 @@ namespace ds::mm {
         if (end_ - base_ > static_cast<std::ptrdiff_t>(index))
         {
             std::memmove(
-                base_ + index + 1,
-                base_ + index,
-                (end_ - base_ - index) * sizeof(BlockType)
+                    base_ + index + 1,
+                    base_ + index,
+                    (end_ - base_ - index) * sizeof(BlockType)
             );
         }
 
@@ -133,9 +133,9 @@ namespace ds::mm {
     {
         destroy(&this->getBlockAt(index));
         std::memmove(
-            base_ + index,
-            base_ + index + 1,
-            (end_ - base_ - index - 1) * sizeof(BlockType)
+                base_ + index,
+                base_ + index + 1,
+                (end_ - base_ - index - 1) * sizeof(BlockType)
         );
         --end_;
         --this->allocatedBlockCount_;
@@ -155,7 +155,7 @@ namespace ds::mm {
 
     template<typename BlockType>
     CompactMemoryManager<BlockType>& CompactMemoryManager<BlockType>::assign
-    (const CompactMemoryManager<BlockType>& other)
+            (const CompactMemoryManager<BlockType>& other)
     {
         if (this != &other)
         {
@@ -226,8 +226,8 @@ namespace ds::mm {
     bool CompactMemoryManager<BlockType>::equals(const CompactMemoryManager<BlockType>& other) const
     {
         return this == &other ||
-            this->getAllocatedBlockCount() == other.getAllocatedBlockCount() &&
-            std::memcmp(base_, other.base_, this->getAllocatedBlocksSize()) == 0;
+               this->getAllocatedBlockCount() == other.getAllocatedBlockCount() &&
+               std::memcmp(base_, other.base_, this->getAllocatedBlocksSize()) == 0;
     }
 
     template<typename BlockType>

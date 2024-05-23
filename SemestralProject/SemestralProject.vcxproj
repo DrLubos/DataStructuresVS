@@ -142,6 +142,7 @@
     <ClInclude Include="HierarchyManager.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="RoutingTable.h" />
+    <ClInclude Include="SortingManager.h" />
     <ClInclude Include="TableManager.h" />
     <ClInclude Include="UserInteraction.h" />
   </ItemGroup>

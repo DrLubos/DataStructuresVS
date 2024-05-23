@@ -3,9 +3,10 @@
 #include "RoutingTable.h"
 #include <libds/heap_monitor.h>
 
-class TableManager {
+class TableManager
+{
 public:
-    ds::adt::Table<std::bitset<32>, ds::adt::ImplicitList<RoutingTableRow*>*>* table;
+    ds::adt::Table<std::bitset<32>, ds::adt::ImplicitList<RoutingTableRow*>*> * table;
     TableManager();
     ~TableManager();
     void addEntry(std::bitset<32>& key, RoutingTableRow* value);
@@ -14,7 +15,8 @@ public:
 };
 
 TableManager::TableManager() {
-    table = new ds::adt::SortedSequenceTable<std::bitset<32>, ds::adt::ImplicitList<RoutingTableRow*>*>();
+    //table = new ds::adt::SortedSequenceTable<std::bitset<32>, ds::adt::ImplicitList<RoutingTableRow*>*>();
+    table = new ds::adt::BinarySearchTree<std::bitset<32>, ds::adt::ImplicitList<RoutingTableRow*>*>();
 }
 
 TableManager::~TableManager() {
@@ -39,7 +41,7 @@ void TableManager::removeEntries(ds::adt::ImplicitList<std::bitset<32>>& ipAddre
     while (begin != end) {
         ds::adt::ImplicitList<RoutingTableRow*>** place = nullptr;
         table->tryFind(*begin, place);
-        delete* place;
+        delete *place;
         ++begin;
     }
 }

@@ -8,7 +8,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     class Hierarchy :
-        virtual public AMT
+            virtual public AMT
     {
     public:
         virtual size_t level(const BlockType& node) const;
@@ -45,21 +45,21 @@ namespace ds::amt {
             struct DepthFirstIteratorPosition
             {
                 DepthFirstIteratorPosition(BlockType* currentNode, DepthFirstIteratorPosition* previousPosition) :
-                    currentNode_(currentNode),
-                    currentSon_(nullptr),
-                    currentSonOrder_(INVALID_INDEX),
-                    visitedSonCount_(0),
-                    currentNodeProcessed_(false),
-                    previousPosition_(previousPosition)
+                        currentNode_(currentNode),
+                        currentSon_(nullptr),
+                        currentSonOrder_(INVALID_INDEX),
+                        visitedSonCount_(0),
+                        currentNodeProcessed_(false),
+                        previousPosition_(previousPosition)
                 {}
 
                 DepthFirstIteratorPosition(const DepthFirstIteratorPosition& other) :
-                    currentNode_(other.currentNode_),
-                    currentSon_(other.currentSon_),
-                    currentSonOrder_(other.currentSonOrder_),
-                    visitedSonCount_(other.visitedSonCount_),
-                    currentNodeProcessed_(other.currentNodeProcessed_),
-                    previousPosition_(other.previousPosition_)
+                        currentNode_(other.currentNode_),
+                        currentSon_(other.currentSon_),
+                        currentSonOrder_(other.currentSonOrder_),
+                        visitedSonCount_(other.visitedSonCount_),
+                        currentNodeProcessed_(other.currentNodeProcessed_),
+                        previousPosition_(other.previousPosition_)
                 {}
 
                 ~DepthFirstIteratorPosition() {
@@ -98,7 +98,7 @@ namespace ds::amt {
 
     public:
         class PreOrderHierarchyIterator :
-            public DepthFirstIterator
+                public DepthFirstIterator
         {
         public:
             PreOrderHierarchyIterator(Hierarchy<BlockType>* hierarchy, BlockType* node);
@@ -109,7 +109,7 @@ namespace ds::amt {
         //----------
 
         class PostOrderHierarchyIterator :
-            public DepthFirstIterator
+                public DepthFirstIterator
         {
         public:
             PostOrderHierarchyIterator(Hierarchy<BlockType>* hierarchy, BlockType* node);
@@ -131,7 +131,7 @@ namespace ds::amt {
 
     template<typename BlockType, size_t K>
     class KWayHierarchy :
-        virtual public Hierarchy<BlockType>
+            virtual public Hierarchy<BlockType>
     {
     };
 
@@ -139,7 +139,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     class BinaryHierarchy :
-        virtual public KWayHierarchy<BlockType, 2>
+            virtual public KWayHierarchy<BlockType, 2>
     {
     public:
         static const size_t LEFT_SON_INDEX = 0;
@@ -169,7 +169,7 @@ namespace ds::amt {
 
 
         class InOrderHierarchyIterator :
-            public Hierarchy<BlockType>::DepthFirstIterator
+                public Hierarchy<BlockType>::DepthFirstIterator
         {
         public:
             InOrderHierarchyIterator(BinaryHierarchy<BlockType>* hierarchy, BlockType* node);
@@ -207,9 +207,9 @@ namespace ds::amt {
     {
         size_t result = 0;
         this->processPreOrder(this->accessRoot(), [&result](const BlockType* b)
-            {
-                result++;
-            });
+        {
+            result++;
+        });
         return result;
     }
 
@@ -218,9 +218,9 @@ namespace ds::amt {
     {
         size_t result = 0;
         this->processPreOrder(&node, [&result](const BlockType* b)
-            {
-                result++;
-            });
+        {
+            result++;
+        });
         return result;
     }
 
@@ -340,14 +340,14 @@ namespace ds::amt {
 
     template<typename BlockType>
     Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(Hierarchy<BlockType>* hierarchy) :
-        hierarchy_(hierarchy),
-        currentPosition_(nullptr)
+            hierarchy_(hierarchy),
+            currentPosition_(nullptr)
     {
     }
 
     template<typename BlockType>
     Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(const DepthFirstIterator& other):
-        DepthFirstIterator(other.hierarchy_)
+            DepthFirstIterator(other.hierarchy_)
     {
         DepthFirstIteratorPosition* myPosition = nullptr;
         for (DepthFirstIteratorPosition* otherPosition = other.currentPosition_;
@@ -460,7 +460,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     Hierarchy<BlockType>::PreOrderHierarchyIterator::PreOrderHierarchyIterator(Hierarchy<BlockType>* hierarchy, BlockType* node):
-        Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(hierarchy)
+            Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(hierarchy)
     {
         if (node != nullptr)
         {
@@ -470,7 +470,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     Hierarchy<BlockType>::PreOrderHierarchyIterator::PreOrderHierarchyIterator(const PreOrderHierarchyIterator& other):
-        Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(other)
+            Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(other)
     {
     }
 
@@ -495,7 +495,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     Hierarchy<BlockType>::PostOrderHierarchyIterator::PostOrderHierarchyIterator(Hierarchy<BlockType>* hierarchy, BlockType* node) :
-        Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(hierarchy)
+            Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(hierarchy)
     {
         if (node != nullptr)
         {
@@ -506,7 +506,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     Hierarchy<BlockType>::PostOrderHierarchyIterator::PostOrderHierarchyIterator(const PreOrderHierarchyIterator& other) :
-        Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(other)
+            Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(other)
     {
     }
 
@@ -643,7 +643,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     BinaryHierarchy<BlockType>::InOrderHierarchyIterator::InOrderHierarchyIterator(BinaryHierarchy<BlockType>* hierarchy, BlockType* node):
-        Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(hierarchy)
+            Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(hierarchy)
     {
         if (node != nullptr)
         {
@@ -654,7 +654,7 @@ namespace ds::amt {
 
     template<typename BlockType>
     BinaryHierarchy<BlockType>::InOrderHierarchyIterator::InOrderHierarchyIterator(const InOrderHierarchyIterator& other):
-        Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(other)
+            Hierarchy<BlockType>::DepthFirstIterator::DepthFirstIterator(other)
     {
     }
 

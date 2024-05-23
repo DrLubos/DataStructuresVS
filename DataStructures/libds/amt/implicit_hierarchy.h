@@ -8,8 +8,8 @@ namespace ds::amt {
 
     template<typename DataType, size_t K>
     class ImplicitHierarchy :
-        virtual public KWayHierarchy<MemoryBlock<DataType>, K>,
-        public ImplicitAMS<DataType>
+            virtual public KWayHierarchy<MemoryBlock<DataType>, K>,
+            public ImplicitAMS<DataType>
     {
     public:
         ImplicitHierarchy();
@@ -51,8 +51,8 @@ namespace ds::amt {
 
     template<typename DataType>
     class BinaryImplicitHierarchy :
-        public BinaryHierarchy<MemoryBlock<DataType>>,
-        public ImplicitHierarchy<DataType, 2>
+            public BinaryHierarchy<MemoryBlock<DataType>>,
+            public ImplicitHierarchy<DataType, 2>
     {
     };
 
@@ -126,16 +126,16 @@ namespace ds::amt {
     size_t ImplicitHierarchy<DataType, K>::nodeCount(const MemoryBlock<DataType>& node) const
     {
         return this->getMemoryManager()->calculateIndex(node) == 0
-                 ? this->size()
-                 : Hierarchy<MemoryBlock<DataType>>::nodeCount(node);
+               ? this->size()
+               : Hierarchy<MemoryBlock<DataType>>::nodeCount(node);
     }
 
     template<typename DataType, size_t K>
     MemoryBlock<DataType>* ImplicitHierarchy<DataType, K>::accessRoot() const
     {
         return this->size() > 0
-                 ? &this->getMemoryManager()->getBlockAt(0)
-                 : nullptr;
+               ? &this->getMemoryManager()->getBlockAt(0)
+               : nullptr;
     }
 
     template<typename DataType, size_t K>
@@ -143,8 +143,8 @@ namespace ds::amt {
     {
         const size_t index = this->indexOfParent(node);
         return INVALID_INDEX != index
-                 ? &this->getMemoryManager()->getBlockAt(index)
-                 : nullptr;
+               ? &this->getMemoryManager()->getBlockAt(index)
+               : nullptr;
     }
 
     template<typename DataType, size_t K>
@@ -152,8 +152,8 @@ namespace ds::amt {
     {
         const size_t index = this->indexOfSon(node, sonOrder);
         return index < this->size()
-                 ? &this->getMemoryManager()->getBlockAt(index)
-                 : nullptr;
+               ? &this->getMemoryManager()->getBlockAt(index)
+               : nullptr;
     }
 
     template<typename DataType, size_t K>
@@ -161,8 +161,8 @@ namespace ds::amt {
     {
         const size_t size = this->size();
         return size != 0
-                 ? &this->getMemoryManager()->getBlockAt(size - 1)
-                 : nullptr;
+               ? &this->getMemoryManager()->getBlockAt(size - 1)
+               : nullptr;
     }
 
     template<typename DataType, size_t K>
