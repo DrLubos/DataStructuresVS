@@ -171,6 +171,9 @@ namespace ds::adt {
             public AUMS<PQItem<P, T>>,
             public PriorityQueue<P, T> {
     public:
+
+        TwoLists();
+
         TwoLists(size_t expectedSize);
 
         TwoLists(const TwoLists<P, T> &other);
@@ -391,6 +394,12 @@ namespace ds::adt {
     size_t SortedExplicitSequencePriorityQueue<P, T>::indexOfHighestPriorityBlock() const {
         return 0;
     }
+
+    template<typename P, typename T>
+	TwoLists<P, T>::TwoLists() :
+        shortSequence_(new ShortSequenceType(static_cast<size_t>(std::ceil(std::sqrt(30))), false)),
+    	longSequence_(new LongSequenceType()) {
+	}
 
     template<typename P, typename T>
     TwoLists<P, T>::TwoLists(size_t expectedSize):

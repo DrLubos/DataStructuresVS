@@ -5,6 +5,8 @@
 #include <complexities/table_analyzer.h>
 #include <msclr\marshal_cppstd.h>
 
+#include "complexities/queue_analyzer.h"
+
 namespace WF = System::Windows::Forms;
 namespace Col = System::Collections::Generic;
 namespace Sys = System;
@@ -67,6 +69,8 @@ std::vector<std::unique_ptr<ds::utils::Analyzer>> createAnalyzers()
 	// TODO 01
 	analyzers.emplace_back(std::make_unique<ds::utils::ListsAnalyzer>());
 	analyzers.emplace_back(std::make_unique<ds::utils::TablesAnalyzer>());
+	analyzers.emplace_back(std::make_unique<ds::utils::QueuesAnalyzer>());
+
 
 	return analyzers;
 }
